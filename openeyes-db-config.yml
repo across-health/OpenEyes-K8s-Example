@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openeyes-db-config
+  labels:
+    group: backend
+data:
+  DATABASE_NAME: openeyes
+  DATABASE_USER: openeyes

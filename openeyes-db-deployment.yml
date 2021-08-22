@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openeyes-db
+  labels:
+    app: openeyes-db
+    group: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openeyes-db
+  template:
+    metadata:
+      labels:
+        app: openeyes-db
+        group: backend
+    spec:
+      volumes:
+        - name: openeyes-db-storage
+          persistentVolumeClaim:
+            claimName: openeyes-db-persistent-volume-claim
+      containers:
+        - name: openeyes-db
+          image: mariadb:10.4
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - configMapRef:
+                name: openeyes-db-config
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openeyes-passwords
+                  key: mysql-root
+            - name: DATABASE_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: openeyes-passwords
+                  key: mysql-pass
+          volumeMounts:
+            - name: openeyes-db-storage
+              mountPath: /var/lib/mysql

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openeyes-config
+  labels:
+    group: frontend
+data:
+  GIT_USER: <GIT USERNAME>
+  GIT_EMAIL: <GIT EMAIL>
+  TZ: Europe/London
+  UID: "1"
+  GID: "1"
+  OE_MODE: DEV
+  OE_INSTITUTION_CODE: NEW
+  OE_PORTAL_ENABLED: "FALSE"
+  DATABASE_HOST: openeyes-db
+  BUILD_BRANCH: v4.0

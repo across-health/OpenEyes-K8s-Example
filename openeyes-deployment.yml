@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openeyes
+  labels:
+    app: openeyes
+    group: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openeyes
+  template:
+    metadata:
+      labels:
+        app: openeyes
+        group: frontend
+    spec:
+      containers:
+        - name: openeyes
+          image: appertaopeneyes/web:php7.4
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: openeyes-config
+          env:
+            - name: SSH_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openeyes-ssh-key
+                  key: ssh-privatekey
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openeyes-passwords
+                  key: mysql-root
